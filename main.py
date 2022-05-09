@@ -123,10 +123,12 @@ while True:
 
     if game_active:
         # driving_sound.play()
-        if not check_collision(car_list):
+        if not check_collision(car_list):  # game over
             hit_sound.play()
             game_active = False
             start_game = True
+            score_game = 0
+
         car_main.centerx = pos_x[index_car]
         screen.blit(car_main_surface, car_main)
         car_list, score_game = move_car(car_list, score_game)
