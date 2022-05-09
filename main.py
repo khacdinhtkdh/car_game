@@ -30,6 +30,7 @@ def check_collision(cars):
             return False
     return True
 
+pygame.mixer.pre_init(frequency=44100, size=-16, channels=2, buffer=512)
 
 # Intialize the pygame
 pygame.init()
@@ -50,19 +51,16 @@ index_car = 2
 
 car_main_surface = pygame.image.load('images/car_main.png').convert()
 car_main = car_main_surface.get_rect(midtop=(pos_x[index_car], 500))
+
+driving_sound = pygame.mixer.Sound('sound/car_driving2.wav')
+hit_sound = pygame.mixer.Sound('sound/sfx_hit.wav')
+
 # timer cars
 car_time = pygame.USEREVENT
 pygame.time.set_timer(car_time, 2500)
 
-# # Sound
-# mixer.music.load("background.wav")
-# mixer.music.play(-1)
-#
-# # Caption and Icon
-# pygame.display.set_caption("Space Invader")
-# icon = pygame.image.load('ufo.png')
-# pygame.display.set_icon(icon)
-# car_list.extend(create_car())
+game_active = True
+driving_sound.play(-1)
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -83,12 +81,18 @@ while True:
         index_car = 3
 
     screen.blit(background, (0, 0))
-    if not check_collision(car_list):
-        print('aaaaaaa')
-    car_main.centerx = pos_x[index_car]
-    screen.blit(car_main_surface, car_main)
-    car_list = move_car(car_list)
-    draw_cars(car_list)
+
+    if game_active:
+        # driving_sound.play()
+        if not check_collision(car_list):
+            hit_sound.play()
+            game_active = False
+        car_main.centerx = pos_x[index_car]
+        screen.blit(car_main_surface, car_main)
+        car_list = move_car(car_list)
+        draw_cars(car_list)
+    else:
+        driving_sound.stop()
 
     pygame.display.update()
     clock.tick(120)
