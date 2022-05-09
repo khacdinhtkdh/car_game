@@ -44,7 +44,7 @@ def display_start_game():
 
 def display_score():
     score_surface = game_font.render("Score: " + str(int(score_game)), True, (255, 255, 0))
-    score_rect = score_surface.get_rect(center=(216, 100))
+    score_rect = score_surface.get_rect(center=(216, 50))
     screen.blit(score_surface, score_rect)
 
 
@@ -111,6 +111,10 @@ while True:
         index_car = 3
 
     speed_game = (score_game // 100) + 1
+
+    if score_game % 100 == 0:
+        timer_car -= 500
+        # pygame.time.set_timer(car_time, timer_car)
 
     screen.blit(background, (0, 0))
 
