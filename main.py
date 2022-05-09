@@ -5,6 +5,7 @@ from pygame import mixer
 
 speed_game = 1
 score_game = 0
+pre_score = 0
 
 
 def create_car():
@@ -112,9 +113,11 @@ while True:
 
     speed_game = (score_game // 100) + 1
 
-    if score_game % 100 == 0:
-        timer_car -= 500
-        # pygame.time.set_timer(car_time, timer_car)
+    if score_game % 100 == 0 and pre_score != score_game:
+        pre_score = score_game
+        if timer_car >= 1000:
+            timer_car -= 500
+        pygame.time.set_timer(car_time, timer_car)
 
     screen.blit(background, (0, 0))
 
@@ -129,7 +132,6 @@ while True:
         car_list, score_game = move_car(car_list, score_game)
         draw_cars(car_list)
         display_score()
-        print(speed_game)
     else:
         car_list.clear()
         driving_sound.stop()
