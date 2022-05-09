@@ -111,12 +111,12 @@ while True:
     if index_car > 3:
         index_car = 3
 
-    speed_game = (score_game // 100) + 1
+    speed_game = (score_game // 200) + 1
 
     if score_game % 100 == 0 and pre_score != score_game:
         pre_score = score_game
         if timer_car >= 1000:
-            timer_car -= 500
+            timer_car -= 250
         pygame.time.set_timer(car_time, timer_car)
 
     screen.blit(background, (0, 0))
